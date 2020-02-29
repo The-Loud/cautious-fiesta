@@ -1,0 +1,6 @@
+Needed steps for integration testing:
+1.  Proper connection and session code
+2.  SQL script to configure the environment properly
+3.  Factories to set up data
+4.  Classes for the affected tables
+5.  Set up metadata reflection to pull table info from the schema
