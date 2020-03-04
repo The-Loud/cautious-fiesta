@@ -4,3 +4,9 @@ Needed steps for integration testing:
 3.  Factories to set up data
 4.  Classes for the affected tables
 5.  Set up metadata reflection to pull table info from the schema
+
+First Step:
+1.  Set up Git hooks with Jenkins
+2.  Test pushing code and deploying to a local DB
+3.  Set up testing environment
+4.

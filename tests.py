@@ -23,7 +23,8 @@ def session(connection):
     transaction = connection.begin()
     session = Session(bind=connection)
 
-    STG_FE_PGM_LISTFactory._meta.sqlalchemy_session = session
+    SourceFactory._meta.sqlalchemy_session = session
+    TargetFactory._meta.sqlalchemy_session = session
 
     yield session
     session.close()

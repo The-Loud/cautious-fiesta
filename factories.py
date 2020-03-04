@@ -1,7 +1,8 @@
-from . import models
+import models
 import factory
 
-class SourceFactory(factory.sqlalchemy.SQLAlchemyModelFactory):
+
+class SourceFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = models.SourceModel
         sqlalchemy_session_persistence = 'commit'
@@ -14,7 +15,7 @@ class SourceFactory(factory.sqlalchemy.SQLAlchemyModelFactory):
     password = factory.LazyFunction(random_sha)
 
 
-class TargetFactory(factory.sqlalchemy.SQLAlchemyModelFactory):
+class TargetFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = models.TargetModel
         sqlalchemy_session_persistence = 'commit'
