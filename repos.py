@@ -18,10 +18,10 @@ class SourceRepository:
         query = self.session.query(self.model_cls)
         query = query.filter(self.model_cls.id == user_id)
         query = query.with_for_update()
-        target = query.one()
+        source = query.one()
 
-        user.first_name = first_name
-        user.last_name = last_name
+        source.first_name = first_name
+        source.last_name = last_name
 
         self.session.flush()
 
@@ -47,8 +47,8 @@ class TargetRepository:
         query = query.with_for_update()
         target = query.one()
 
-        user.first_name = first_name
-        user.last_name = last_name
+        target.first_name = first_name
+        target.last_name = last_name
 
         self.session.flush()
 
