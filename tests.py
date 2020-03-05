@@ -3,8 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from factories import SourceFactory, TargetFactory
 from models import SourceModel, TargetModel
+from repos import SourceRepository, TargetRepository
 
+<<<<<<< HEAD
 DB_ENG_STR = 'oracle+cx_oracle://user:pw@AAPPR03 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ep05)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = aappr03svc.uhc.com)))'
+=======
+DB_ENG_STR = ''
+>>>>>>> cf8f19a094570d5a70ff8ea8c97055972b060fd3
 engine = create_engine('DB_ENG_STR')
 Session = sessionmaker()
 
@@ -55,4 +60,8 @@ def test_row_counts(session, source, target):
 
 
 def test_empty_tables(session, source, target):
+    pass
+
+
+def test_some_other_test(session, source, target):
     pass

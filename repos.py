@@ -1,5 +1,11 @@
 #   Query methods will be defined here
 from models import SourceModel, TargetModel
+from hashlib import sha256
+
+
+def ez_sha(s, encoding='UTF-8'):
+    return sha256(s.encode(encoding)).hexdigest()
+
 
 class SourceRepository:
     model_cls = SourceModel
@@ -20,8 +26,8 @@ class SourceRepository:
         query = query.with_for_update()
         source = query.one()
 
-        user.first_name = first_name
-        user.last_name = last_name
+        source.first_name = first_name
+        source.last_name = last_name
 
         self.session.flush()
 
@@ -47,8 +53,8 @@ class TargetRepository:
         query = query.with_for_update()
         target = query.one()
 
-        user.first_name = first_name
-        user.last_name = last_name
+        target.first_name = first_name
+        target.last_name = last_name
 
         self.session.flush()
 
