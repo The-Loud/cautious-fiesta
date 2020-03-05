@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from factories import SourceFactory, TargetFactory
 from models import SourceModel, TargetModel
 
-
+DB_ENG_STR = 'oracle+cx_oracle://user:pw@AAPPR03 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ep05)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = aappr03svc.uhc.com)))'
 engine = create_engine('DB_ENG_STR')
 Session = sessionmaker()
 
