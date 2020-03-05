@@ -1,5 +1,11 @@
 #   Query methods will be defined here
 from models import SourceModel, TargetModel
+from hashlib import sha256
+
+
+def ez_sha(s, encoding='UTF-8'):
+    return sha256(s.encode(encoding)).hexdigest()
+
 
 class SourceRepository:
     model_cls = SourceModel

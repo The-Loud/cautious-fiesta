@@ -2,16 +2,17 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table
 from sqlalchemy import create_engine
 
-engine = create_engine(['DB_URL'])
+DB_ENG_STR = ''
+engine = create_engine(DB_ENG_STR)
 Base = declarative_base(bind=engine)
 
 #   Set global variables here
-schema = 'RR_JOBS'
+schema = 'SCHEMANAME'
 source_table = 'Changeme_source'
 target_table = 'Changeme_target'
 
-#   Use SQLAlchemy Reflection to pull back table metadata
 
+#   Use SQLAlchemy Reflection to pull back table metadata
 class SourceModel(Base):
     '''The source table base. This is used to pull meta from the DB.'''
     __table__ = Table(source_table, Base.metadata, autoload=True, autoload_with=engine, schema=schema)

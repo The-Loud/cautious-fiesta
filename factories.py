@@ -1,6 +1,12 @@
 import models
 import factory
-import time
+from datetime import datetime, timezone
+from uuid import uuid4
+from repos import ez_sha
+
+
+def random_sha():
+    return ez_sha(str(uuid4()))
 
 
 class SourceFactory(factory.alchemy.SQLAlchemyModelFactory):
