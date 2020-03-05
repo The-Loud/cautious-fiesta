@@ -24,7 +24,8 @@ def session(connection):
     session = Session(bind=connection)
 
     SourceFactory._meta.sqlalchemy_session = session
-    TargetFactory._meta.sqlalchemy_session = session
+    #   We need to test one table first.
+    #   TargetFactory._meta.sqlalchemy_session = session
 
     yield session
     session.close()
