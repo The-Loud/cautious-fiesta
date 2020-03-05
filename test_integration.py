@@ -1,22 +1,15 @@
 import pytest
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 from factories import SourceFactory, TargetFactory
+from repos import SourceRepository, TargetRepository
 from models import SourceModel, TargetModel
-from getpass import getpass
+from connection import Session, DB_ENG
 
-PASSWORD = getpass('Enter your password: ')
-
-
-DB_ENG_STR = 'oracle+cx_oracle://UHG_001271993:' + PASSWORD + '@AAPPR03 = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ep05)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = aappr03svc.uhc.com)))'
-engine = create_engine('DB_ENG_STR')
-Session = sessionmaker()
 
 #   Create a clean connection for the duration of the entire script
 @pytest.fixture(scope='module')
 def connection():
     '''One connection per run of module'''
-    connection = engine.connect()
+    connection = DB_ENG['sql'].connect()
     yield connection
     connection.close()
 
@@ -28,8 +21,7 @@ def session(connection):
     session = Session(bind=connection)
 
     SourceFactory._meta.sqlalchemy_session = session
-    #   We need to test one table first.
-    #   TargetFactory._meta.sqlalchemy_session = session
+    TargetFactory._meta.sqlalchemy_session = session
 
     yield session
     session.close()
@@ -50,8 +42,8 @@ def target(session):
 
 def test_tables_exist(connection, source, target):
     '''Sanity check'''
-    assert connection.has_table('source_table_name', schema='schemaname')
-    assert connection.has_table('target_table_name', schema='schemaname')
+    assert connection.dialect.has_table(connection, table_name='accounts')
+    assert connection.dialect.has_table(connection, table_name='transactions')
 
 
 def test_row_counts(session, source, target):
