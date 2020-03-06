@@ -13,12 +13,16 @@ class SourceRepository:
     def __init__(self, session):
         self.session = session
 
-    def authenticate(self, email, password):
+    def zero_records(self):
         query = self.session.query(self.model_cls)
-        query = query.filter(self.model_cls.email == email)
-        query = query.filter(self.model_cls.password == ez_sha(password))
+        return query.count()
 
-        return query.one_or_none()
+
+    def all_records(self):
+        query = self.session.query(self.model_cls).yield_per(1000)
+        return query
+        # yield query
+
 
     def change_name(self, user_id, first_name, last_name):
         query = self.session.query(self.model_cls)
@@ -45,12 +49,15 @@ class TargetRepository:
     def __init__(self, session):
         self.session = session
 
-    def authenticate(self, email, password):
+    def zero_records(self):
         query = self.session.query(self.model_cls)
-        query = query.filter(self.model_cls.email == email)
-        query = query.filter(self.model_cls.password == ez_sha(password))
+        return query.count()
 
-        return query.one_or_none()
+    def all_records(self):
+        query = self.session.query(self.model_cls).yield_per(1000)
+        return query
+        # yield query
+
 
     def change_name(self, user_id, first_name, last_name):
         query = self.session.query(self.model_cls)

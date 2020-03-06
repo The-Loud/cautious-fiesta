@@ -1,27 +1,32 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Table
+from sqlalchemy import Table, Column, String
 from connection import DB_ENG
 
 
-Base = declarative_base(bind=DB_ENG['sql'])
 
 #   Set global variables here
-con = 'sql'
-schema = 'pybudget'
-source_table = 'accounts'
-target_table = 'transactions'
+con = 'orc'
+schema = 'RR_REG_FM'
+source_table = 'VA_FACT_MAP_202002'
+target_table = 'Va_Fact_Map_202002_prd'
 
+
+Base = declarative_base(bind=DB_ENG[con])
 
 #   Use SQLAlchemy Reflection to pull back table metadata
 class SourceModel(Base):
     '''The source table base. This is used to pull meta from the DB.'''
-    __table__ = Table(source_table, Base.metadata, autoload=True, autoload_with=DB_ENG[con], schema=schema)
+    __table__ = Table(source_table, Base.metadata,
+                Column('concat_pk', String, primary_key=True),
+                autoload=True, extend_existing=True, autoload_with=DB_ENG[con], schema=schema)
 
 
 class TargetModel(Base):
     '''Target table base. Initalizes table and column objects based on the
        metadata from the DB.'''
-    __table__ = Table(target_table, Base.metadata, autoload=True, autoload_with=DB_ENG[con], schema=schema)
+    __table__ = Table(source_table, Base.metadata,
+                Column('concat_pk', String, primary_key=True),
+                autoload=True, extend_existing=True, autoload_with=DB_ENG[con], schema=schema)
 
 
 '''

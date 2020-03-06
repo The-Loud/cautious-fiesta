@@ -9,7 +9,7 @@ from connection import Session, DB_ENG
 @pytest.fixture(scope='module')
 def connection():
     '''One connection per run of module'''
-    connection = DB_ENG['sql'].connect()
+    connection = DB_ENG['orc'].connect()
     yield connection
     connection.close()
 
@@ -39,12 +39,10 @@ def target(session):
 
 
 #   Begin tests here
-
 def test_tables_exist(connection):
     '''Sanity check'''
     assert connection.dialect.has_table(connection, table_name=source_table)
     assert connection.dialect.has_table(connection, table_name=target_table)
-
 
 def test_row_counts(session, source, target):
     '''Takes in two tables and determines row counts between them'''
@@ -52,10 +50,15 @@ def test_row_counts(session, source, target):
 
 
 def test_empty_tables(session, source, target):
-    pass
+    assert source.zero_records() == 0 == target.zero_records()
 
 
 def test_col_match(session):
     '''Verifies that the column values are the same in each table'''
+    assert SourceModel.__table__.columns.keys() == TargetModel.__table__.columns.keys()
 
-    assert SourceModel.__table__.columns.account_id.name == TargetModel.__table__.columns.account_id.name
+
+def test_val_match(session, source, target):
+    '''Verifies that the column values are the same in each table'''
+    for s, t in zip(source.all_records(), target.all_records()):
+        assert s == t
