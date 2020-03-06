@@ -57,9 +57,5 @@ def test_empty_tables(session, source, target):
 
 def test_col_match(session):
     '''Verifies that the column values are the same in each table'''
-    s_query = session.query(SourceModel.id)
-    t_query = session.query(TargetModel.id)
-    src = s_query.column_descriptions
-    tar = t_query.column_descriptions
 
-    assert src[0]['type'] == tar[0]['type']
+    assert SourceModel.__table__.columns.account_id.name == TargetModel.__table__.columns.account_id.name
