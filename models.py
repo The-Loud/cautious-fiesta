@@ -3,13 +3,13 @@ from sqlalchemy import Table
 from connection import DB_ENG
 
 
-Base = declarative_base(bind=DB_ENG['orc'])
+Base = declarative_base(bind=DB_ENG['sql'])
 
 #   Set global variables here
-con = 'orc'
-schema = 'UHG_001271993'
-source_table = 'CONSUMER'
-target_table = 'CONSUMER_ADDRESS'
+con = 'sql'
+schema = 'pybudget'
+source_table = 'accounts'
+target_table = 'transactions'
 
 
 #   Use SQLAlchemy Reflection to pull back table metadata

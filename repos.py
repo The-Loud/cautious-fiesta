@@ -33,10 +33,9 @@ class SourceRepository:
 
         return source
 
-    def get_columns(self):
+    def grab_columns(self):
         query = self.session.query(self.model_cls)
-        query = query.column_descriptions
-        source = query
+        source = query.column_descriptions
         return source
 
 
@@ -64,11 +63,9 @@ class TargetRepository:
 
         self.session.flush()
 
-        return source
+        return target
 
-    def get_columns(self):
+    def grab_columns(self):
         query = self.session.query(self.model_cls)
-        query = query.column_descriptions
-        target = query
-        
+        target = query.column_descriptions
         return target

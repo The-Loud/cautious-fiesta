@@ -9,7 +9,7 @@ from connection import Session, DB_ENG
 @pytest.fixture(scope='module')
 def connection():
     '''One connection per run of module'''
-    connection = DB_ENG['orc'].connect()
+    connection = DB_ENG['sql'].connect()
     yield connection
     connection.close()
 
@@ -40,7 +40,7 @@ def target(session):
 
 #   Begin tests here
 
-def test_tables_exist(connection, source, target):
+def test_tables_exist(connection):
     '''Sanity check'''
     assert connection.dialect.has_table(connection, table_name=source_table)
     assert connection.dialect.has_table(connection, table_name=target_table)
@@ -48,22 +48,18 @@ def test_tables_exist(connection, source, target):
 
 def test_row_counts(session, source, target):
     '''Takes in two tables and determines row counts between them'''
-    assert session.query(TargetModel).count() == session.query(SourceModel).count()
+    assert session.query(SourceModel).count() == session.query(TargetModel).count()
 
 
 def test_empty_tables(session, source, target):
     pass
 
 
-def test_col_match(session, source, target):
+def test_col_match(session):
     '''Verifies that the column values are the same in each table'''
-    assert source.get_columns() == target.get_columns()
+    s_query = session.query(SourceModel.id)
+    t_query = session.query(TargetModel.id)
+    src = s_query.column_descriptions
+    tar = t_query.column_descriptions
 
-'''
-    assert chosen_one.first_name != user.first_name
-    assert chosen_one.last_name != user.last_name
-    retrieved = session.query(UserModel).get(chosen_one.id)
-    assert new_first_name == retrieved.first_name
-    assert new_last_name == retrieved.last_name
-    assert count == session.query(UserModel).count()
-'''
+    assert src[0]['type'] == tar[0]['type']
