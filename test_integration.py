@@ -1,5 +1,5 @@
 import pytest
-#from factories import SourceFactory, TargetFactory
+# from factories import SourceFactory, TargetFactory
 from repos import SourceRepository, TargetRepository
 from models import SourceModel, TargetModel, source_table, target_table
 from connection import Session, DB_ENG
@@ -20,8 +20,8 @@ def session(connection):
     transaction = connection.begin()
     session = Session(bind=connection)
 
-    #SourceFactory._meta.sqlalchemy_session = session
-    #TargetFactory._meta.sqlalchemy_session = session
+    # SourceFactory._meta.sqlalchemy_session = session
+    # TargetFactory._meta.sqlalchemy_session = session
 
     yield session
     session.close()
@@ -41,8 +41,11 @@ def target(session):
 #   Begin tests here
 def test_tables_exist(connection):
     '''Sanity check'''
-    assert connection.dialect.has_table(connection, table_name=source_table) != None
-    assert connection.dialect.has_table(connection, table_name=target_table) != None
+    assert connection.dialect.has_table(connection,
+                                        table_name=source_table) is not None
+    assert connection.dialect.has_table(connection,
+                                        table_name=target_table) is not None
+
 
 def test_row_counts(session, source, target):
     '''Takes in two tables and determines row counts between them'''
@@ -62,6 +65,7 @@ def test_val_match(session, source, target):
     '''Verifies that the column values are the same in each table'''
     for s, t in zip(source.all_records(), target.all_records()):
         assert s == t
+
 
 '''
     for s in source.all_records():

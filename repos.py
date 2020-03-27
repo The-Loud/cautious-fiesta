@@ -17,12 +17,10 @@ class SourceRepository:
         query = self.session.query(self.model_cls)
         return query.count()
 
-
     def all_records(self):
         query = self.session.query(self.model_cls).yield_per(1000)
-        return query
-        # yield query
-
+        # return query
+        yield query
 
     def change_name(self, user_id, first_name, last_name):
         query = self.session.query(self.model_cls)
@@ -55,9 +53,8 @@ class TargetRepository:
 
     def all_records(self):
         query = self.session.query(self.model_cls).yield_per(1000)
-        return query
-        # yield query
-
+        # return query
+        yield query
 
     def change_name(self, user_id, first_name, last_name):
         query = self.session.query(self.model_cls)
